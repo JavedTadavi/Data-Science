@@ -1,0 +1,73 @@
+# Import necessary libraries
+import numpy as np
+import pandas as pd
+from scipy.stats import f_oneway
+from statsmodels.stats.anova import AnovaRM
+from statsmodels.formula.api import ols
+import statsmodels.api as sm
+
+# **ONE-WAY ANOVA**
+# Data for three groups (e.g., exam scores from three teaching methods)
+group1 = [85, 86, 88, 75, 78]
+group2 = [89, 92, 91, 90, 87]
+group3 = [82, 80, 85, 86, 84]
+
+print("One-Way ANOVA")
+print("-" * 50)
+# Step 1: Display data
+print("Group 1:", group1)
+print("Group 2:", group2)
+print("Group 3:", group3)
+
+# Step 2: Perform One-Way ANOVA
+f_statistic, p_value = f_oneway(group1, group2, group3)
+
+# Step 3: Print Results
+print(f"\nF-Statistic: {f_statistic:.3f}")
+print(f"P-Value: {p_value:.3f}")
+
+# Step 4: Interpret Results
+alpha = 0.05  # Significance level
+if p_value < alpha:
+    print("Reject the null hypothesis: There is a significant difference between the group means.")
+else:
+    print("Fail to reject the null hypothesis: No significant difference between the group means.")
+
+print("\n" + "=" * 50 + "\n")
+
+# **TWO-WAY ANOVA**
+# Step 1: Create a dataset for two-way ANOVA
+# Example: Two factors - Teaching Method (A, B) and Gender (Male, Female)
+data = {
+    "Scores": [85, 86, 88, 75, 78, 89, 92, 91, 90, 87, 82, 80, 85, 86, 84],
+    "Teaching_Method": ["A"] * 5 + ["B"] * 5 + ["C"] * 5,
+    "Gender": ["Male", "Male", "Female", "Female", "Male", "Female", "Male", "Male", 
+               "Female", "Female", "Male", "Female", "Male", "Male", "Female"]
+}
+
+# Step 2: Convert data to a pandas DataFrame
+df = pd.DataFrame(data)
+
+# Display the dataset
+print("Two-Way ANOVA Dataset")
+print(df)
+print("\n" + "-" * 50 + "\n")
+
+# Step 3: Perform Two-Way ANOVA using statsmodels
+# Fit the model
+model = ols('Scores ~ C(Teaching_Method) + C(Gender) + C(Teaching_Method):C(Gender)', data=df).fit()
+
+# Perform ANOVA
+anova_results = sm.stats.anova_lm(model, typ=2)
+
+# Step 4: Display Results
+print("Two-Way ANOVA Results")
+print(anova_results)
+
+# Step 5: Interpret Results
+print("\nInterpretation:")
+for effect, p_value in anova_results["PR(>F)"].items():
+    if p_value < alpha:
+        print(f"The effect of {effect} is statistically significant (p-value: {p_value:.3f}).")
+    else:
+        print(f"The effect of {effect} is not statistically significant (p-value: {p_value:.3f}).")

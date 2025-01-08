@@ -1,0 +1,46 @@
+import pandas as pd
+# Load dataset from a CSV file
+# Replace 'sample_data.csv' with the path to your CSV file
+# Sample CSV assumed to have columns: 'Name', 'Age', 'Salary', 'Department'
+data = {
+ 'Name': ['Alice', 'Bob', 'Charlie', 'David', 'Eva'],
+ 'Age': [25, 30, 35, 40, 28],
+ 'Salary': [50000, 60000, 70000, 80000, 55000],
+ 'Department': ['HR', 'IT', 'Finance', 'IT', 'HR']
+}
+df = pd.DataFrame(data)
+# 1. View the first few rows of the dataset
+print("Dataset Preview:")
+print(df.head())
+# 2. Information about the dataset
+print("\nDataset Information:")
+print(df.info())
+# 3. Descriptive statistics
+print("\nDescriptive Statistics:")
+print(df.describe())
+# 4. Accessing a specific column
+print("\nNames of Employees:")
+print(df['Name'])
+# 5. Filtering data - employees with Salary > 60000
+print("\nEmployees with Salary > 60000:")
+high_salary = df[df['Salary'] > 60000]
+print(high_salary)
+# 6. Sorting data - by Age in ascending order
+print("\nDataset sorted by Age:")
+sorted_by_age = df.sort_values(by='Age')
+print(sorted_by_age)
+# 7. Adding a new column - Bonus (10% of Salary)
+df['Bonus'] = df['Salary'] * 0.10
+print("\nDataset after Adding Bonus Column:")
+print(df)
+# 8. Dropping a column - 'Bonus'
+df_without_bonus = df.drop(columns=['Bonus'])
+print("\nDataset after Dropping the Bonus Column:")
+print(df_without_bonus)
+# 9. Grouping data - Average Salary by Department
+print("\nAverage Salary by Department:")
+avg_salary_dept = df.groupby('Department')['Salary'].mean()
+print(avg_salary_dept)
+# 10. Checking for missing data
+print("\nChecking for Missing Values:")
+print(df.isnull().sum())

@@ -1,0 +1,40 @@
+# Importing required libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.stats import skew, kurtosis
+# Sample dataset - Create a DataFrame
+data = {
+ 'Age': [23, 26, 30, 22, 29, 35, 32, 40, 34, 36, 38, 45, 50, 60, 28],
+ 'Salary': [20000, 25000, 30000, 22000, 27000, 40000, 35000, 45000, 37000, 38000, 39000, 
+50000, 
+ 55000, 60000, 32000]
+}
+df = pd.DataFrame(data)
+# Step 1: Plot histograms to visualize data distribution
+plt.figure(figsize=(12, 5))
+# Histogram for 'Age'
+plt.subplot(1, 2, 1)
+sns.histplot(df['Age'], bins=10, kde=True, color='blue')
+plt.title('Histogram of Age')
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+# Histogram for 'Salary'
+plt.subplot(1, 2, 2)
+sns.histplot(df['Salary'], bins=10, kde=True, color='green')
+plt.title('Histogram of Salary')
+plt.xlabel('Salary')
+plt.ylabel('Frequency')
+plt.tight_layout()
+plt.show()
+# Step 2: Calculate skewness and kurtosis
+age_skewness = skew(df['Age'])
+salary_skewness = skew(df['Salary'])
+age_kurtosis = kurtosis(df['Age'])
+salary_kurtosis = kurtosis(df['Salary'])
+# Print skewness and kurtosis values
+print("Skewness and Kurtosis of the Dataset:")
+print(f"Skewness of Age: {age_skewness:.4f}")
+print(f"Skewness of Salary: {salary_skewness:.4f}")
+print(f"Kurtosis of Age: {age_kurtosis:.4f}")
+print(f"Kurtosis of Salary: {salary_kurtosis:.4f}")

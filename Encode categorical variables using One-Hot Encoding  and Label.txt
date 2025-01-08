@@ -1,0 +1,59 @@
+# Import required libraries
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+
+# Define a dataset with categorical variables
+data = {
+    'Color': ['Red', 'Blue', 'Green', 'Blue', 'Green', 'Red'],
+    'Size': ['S', 'M', 'L', 'M', 'S', 'L']
+}
+
+# Create a DataFrame
+df = pd.DataFrame(data)
+
+print("=== Original DataFrame ===")
+print(df)
+
+# 1. Label Encoding
+label_encoder_color = LabelEncoder()
+label_encoder_size = LabelEncoder()
+
+# Apply Label Encoding to 'Color' and 'Size'
+df['Color_Label'] = label_encoder_color.fit_transform(df['Color'])
+df['Size_Label'] = label_encoder_size.fit_transform(df['Size'])
+
+print("\n=== DataFrame after Label Encoding ===")
+print(df)
+
+# Label Encoding Mappings
+color_mapping = dict(zip(label_encoder_color.classes_, 
+                         label_encoder_color.transform(label_encoder_color.classes_)))
+size_mapping = dict(zip(label_encoder_size.classes_, 
+                        label_encoder_size.transform(label_encoder_size.classes_)))
+
+print("\n=== Label Encoding Mapping for 'Color' ===")
+print(color_mapping)
+print("\n=== Label Encoding Mapping for 'Size' ===")
+print(size_mapping)
+
+# 2. One-Hot Encoding using Pandas
+color_one_hot = pd.get_dummies(df['Color'], prefix='Color')
+size_one_hot = pd.get_dummies(df['Size'], prefix='Size')
+df_one_hot = pd.concat([df, color_one_hot, size_one_hot], axis=1)
+
+print("\n=== DataFrame after One-Hot Encoding (Using Pandas) ===")
+print(df_one_hot)
+
+# 3. One-Hot Encoding using Scikit-learn
+one_hot_encoder = OneHotEncoder(sparse_output=False)  # Change sparse to sparse_output
+color_encoded = one_hot_encoder.fit_transform(df[['Color']])
+color_encoded_df = pd.DataFrame(color_encoded, 
+                                columns=one_hot_encoder.get_feature_names_out(['Color']))
+size_encoded = one_hot_encoder.fit_transform(df[['Size']])
+size_encoded_df = pd.DataFrame(size_encoded, 
+                                columns=one_hot_encoder.get_feature_names_out(['Size']))
+
+df_one_hot_sklearn = pd.concat([df, color_encoded_df, size_encoded_df], axis=1)
+
+print("\n=== DataFrame with One-Hot Encoding (Using Scikit-learn) ===")
+print(df_one_hot_sklearn)

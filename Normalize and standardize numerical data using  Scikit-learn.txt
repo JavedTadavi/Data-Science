@@ -1,0 +1,55 @@
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+# Define the dataset
+data = {
+ 'Age': [25, 30, 35, 40, 45],
+ 'Salary': [50000, 60000, 70000, 80000, 90000],
+ 'Experience': [1, 2, 3, 4, 5]
+}
+df = pd.DataFrame(data)
+print("=== Original Data ===")
+print(df)
+
+# Basic statistics
+print("\n=== Basic Statistics ===")
+print("Mean:\n", df.mean())
+print("Standard Deviation:\n", df.std())
+print("Minimum:\n", df.min())
+print("Maximum:\n", df.max())
+
+# Normalization (Min-Max Scaling)
+min_max_scaler = MinMaxScaler()
+normalized_data = min_max_scaler.fit_transform(df)
+normalized_df = pd.DataFrame(normalized_data, columns=df.columns)
+print("\n=== Normalized Data (Min-Max Scaling) ===")
+print(normalized_df)
+
+# Standardization (Z-score Scaling)
+standard_scaler = StandardScaler()
+standardized_data = standard_scaler.fit_transform(df)
+standardized_df = pd.DataFrame(standardized_data, columns=df.columns)
+print("\n=== Standardized Data (Z-score Scaling) ===")
+print(standardized_df)
+
+# Dataset with outliers
+data_with_outlier = {
+ 'Age': [25, 30, 35, 40, 150],
+ 'Salary': [50000, 60000, 70000, 80000, 1000000],
+ 'Experience': [1, 2, 3, 4, 50]
+}
+df_outlier = pd.DataFrame(data_with_outlier)
+print("\n=== Dataset with Outliers ===")
+print(df_outlier)
+
+# Normalized and standardized data with outliers
+normalized_data_outlier = min_max_scaler.fit_transform(df_outlier)
+standardized_data_outlier = standard_scaler.fit_transform(df_outlier)
+normalized_outlier_df = pd.DataFrame(normalized_data_outlier, columns=df_outlier.columns)
+standardized_outlier_df = pd.DataFrame(standardized_data_outlier, 
+columns=df_outlier.columns)
+print("\n=== Normalized Data (With Outliers) ===")
+print(normalized_outlier_df)
+print("\n=== Standardized Data (With Outliers) ===")
+print(standardized_outlier_df)

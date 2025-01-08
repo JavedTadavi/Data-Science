@@ -1,0 +1,37 @@
+from scipy import stats
+import numpy as np
+
+# One-sample t-test
+# Sample data: Let's say we have test scores of a group and we want to test if the mean score is significantly different from a hypothetical population mean.
+sample_data_one = [85, 89, 78, 92, 88, 91, 84, 90]
+population_mean = 80  # Hypothetical population mean
+
+# Perform the one-sample t-test
+t_stat_one, p_value_one = stats.ttest_1samp(sample_data_one, population_mean)
+
+print("One-sample t-test:")
+print(f"T-statistic: {t_stat_one:.2f}, P-value: {p_value_one:.3f}")
+
+# Interpret results for one-sample t-test
+alpha = 0.05  # Significance level
+if p_value_one < alpha:
+    print("Result: Reject the null hypothesis. The sample mean is significantly different from the population mean.")
+else:
+    print("Result: Fail to reject the null hypothesis. The sample mean is not significantly different from the population mean.")
+
+# Independent (two-sample) t-test
+# Sample data for two groups (e.g., scores of students from two different classes)
+class_a_scores = [85, 88, 78, 92, 88, 91, 84, 90]
+class_b_scores = [82, 86, 80, 85, 87, 79, 83, 84]
+
+# Perform the independent (two-sample) t-test
+t_stat_ind, p_value_ind = stats.ttest_ind(class_a_scores, class_b_scores)
+
+print("\nIndependent (two-sample) t-test:")
+print(f"T-statistic: {t_stat_ind:.2f}, P-value: {p_value_ind:.3f}")
+
+# Interpret results for independent (two-sample) t-test
+if p_value_ind < alpha:
+    print("Result: Reject the null hypothesis. There is a significant difference between the two groups.")
+else:
+    print("Result: Fail to reject the null hypothesis. There is no significant difference between the two groups.")

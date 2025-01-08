@@ -1,0 +1,65 @@
+# Basic Python Operations
+print("=== Basic Python Operations ===")
+
+# Arithmetic operations
+x = 10
+y = 5
+print("\nArithmetic Operations:")
+print("Addition (x + y):", x + y)
+print("Subtraction (x - y):", x - y)
+print("Multiplication (x * y):", x * y)
+print("Division (x / y):", x / y)
+print("Floor Division (x // y):", x // y)
+print("Modulus (x % y):", x % y)
+print("Exponentiation (x ** y):", x ** y)
+
+# Logical operations
+a = True
+b = False
+print("\nLogical Operations:")
+print("Logical AND (a and b):", a and b)
+print("Logical OR (a or b):", a or b)
+print("Logical NOT (not a):", not a)
+
+# Comparison operations
+print("\nComparison Operations:")
+print("x > y:", x > y)
+print("x < y:", x < y)
+print("x == y:", x == y)
+print("x != y:", x != y)
+print("x >= y:", x >= y)
+print("x <= y:", x <= y)
+
+# String operations
+str1 = "Hello"
+str2 = "World"
+print("\nString Operations:")
+print("String Concatenation (str1 + str2):", str1 + " " + str2)
+print("String Repetition (str1 * 3):", str1 * 3)
+
+# List operations
+lst = [1, 2, 3, 4, 5]
+print("\nList Operations:")
+print("Original List:", lst)
+print("Append 6 to List (lst + [6]):", lst + [6])
+print("Slicing List (First 3 elements - lst[:3]):", lst[:3])
+
+# NumPy Statistical Operations
+import numpy as np
+print("\n=== NumPy Statistical Operations ===")
+
+# Create a NumPy array
+data = np.array([10, 20, 30, 40, 50])
+print("\nDataset:", data)
+
+# Calculate Mean
+mean_value = np.mean(data)
+print("Mean of the data:", mean_value)
+
+# Calculate Median
+median_value = np.median(data)
+print("Median of the data:", median_value)
+
+# Calculate Variance
+variance_value = np.var(data)
+print("Variance of the data:", variance_value)

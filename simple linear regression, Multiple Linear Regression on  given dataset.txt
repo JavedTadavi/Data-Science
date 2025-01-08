@@ -1,0 +1,93 @@
+# Step 1: Import Required Libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Step 2: Create a Sample Dataset
+# Example dataset for both Simple and Multiple Linear Regression
+data = {
+    "Hours_Studied": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "Online_Tutorials": [1, 2, 1, 3, 2, 3, 4, 5, 5],
+    "Scores": [50, 55, 60, 65, 70, 75, 80, 85, 90]
+}
+# Convert data to DataFrame
+df = pd.DataFrame(data)
+# Display the dataset
+print("Dataset:")
+print(df)
+
+# Step 3: Separate Dependent (Y) and Independent Variables (X)
+X_simple = df[["Hours_Studied"]]  # For Simple Linear Regression
+X_multiple = df[["Hours_Studied", "Online_Tutorials"]]  # For Multiple Linear Regression
+Y = df["Scores"]
+
+# Step 4: Split the Dataset into Training and Testing Sets
+# For Simple Regression
+X_train_simple, X_test_simple, Y_train, Y_test = train_test_split(X_simple, Y, test_size=0.2, random_state=42)
+
+# For Multiple Regression
+X_train_multiple, X_test_multiple, Y_train_multiple, Y_test_multiple = train_test_split(X_multiple, Y, test_size=0.2, random_state=42)
+
+# **Simple Linear Regression**
+print("\nSimple Linear Regression")
+print("-" * 50)
+
+# Step 5: Train the Model
+model_simple = LinearRegression()
+model_simple.fit(X_train_simple, Y_train)
+
+# Step 6: Test the Model
+Y_pred_simple = model_simple.predict(X_test_simple)
+
+# Step 7: Print the Coefficient and Intercept
+print(f"Coefficient (Slope): {model_simple.coef_[0]:.2f}")
+print(f"Intercept: {model_simple.intercept_:.2f}")
+
+# Step 8: Calculate Performance Metrics
+mse_simple = mean_squared_error(Y_test, Y_pred_simple)
+r2_simple = r2_score(Y_test, Y_pred_simple)
+print(f"Mean Squared Error: {mse_simple:.2f}")
+print(f"R-Squared Value: {r2_simple:.2f}")
+
+# Step 9: Visualize Results
+plt.scatter(X_test_simple, Y_test, color="blue", label="Actual")
+plt.plot(X_test_simple, Y_pred_simple, color="red", label="Predicted (Line of Best Fit)")
+plt.xlabel("Hours Studied")
+plt.ylabel("Scores")
+plt.title("Simple Linear Regression")
+plt.legend()
+plt.show()
+
+# **Multiple Linear Regression**
+print("\nMultiple Linear Regression")
+print("-" * 50)
+
+# Step 10: Train the Model
+model_multiple = LinearRegression()
+model_multiple.fit(X_train_multiple, Y_train_multiple)
+
+# Step 11: Test the Model
+Y_pred_multiple = model_multiple.predict(X_test_multiple)
+
+# Step 12: Print Coefficients and Intercept
+print(f"Coefficients (Slopes): {model_multiple.coef_}")
+print(f"Intercept: {model_multiple.intercept_:.2f}")
+
+# Step 13: Calculate Performance Metrics
+mse_multiple = mean_squared_error(Y_test_multiple, Y_pred_multiple)
+r2_multiple = r2_score(Y_test_multiple, Y_pred_multiple)
+print(f"Mean Squared Error: {mse_multiple:.2f}")
+print(f"R-Squared Value: {r2_multiple:.2f}")
+
+# Step 14: Visualize Results
+# Since multiple regression involves multiple dimensions, we'll display actual vs predicted values
+plt.scatter(range(len(Y_test_multiple)), Y_test_multiple, color="blue", label="Actual")
+plt.scatter(range(len(Y_test_multiple)), Y_pred_multiple, color="red", label="Predicted")
+plt.xlabel("Sample Index")
+plt.ylabel("Scores")
+plt.title("Multiple Linear Regression: Actual vs Predicted")
+plt.legend()
+plt.show()

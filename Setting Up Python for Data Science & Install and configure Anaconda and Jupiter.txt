@@ -1,0 +1,89 @@
+# Import necessary libraries 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split 
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report, roc_curve, auc
+
+# =============================
+# Example Dataset
+# =============================
+# Creating a sample dataset 
+data = {
+    'Study_Hours': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    'Pass_Exam': [0, 0, 0, 0, 1, 1, 1, 1, 1, 1]  # Binary output: 0 -> Fail, 1 -> Pass
+}
+# Convert to DataFrame 
+df = pd.DataFrame(data)
+
+# =============================
+# Split Dataset into Features and Target 
+# =============================
+# Features and target variable
+X = df[['Study_Hours']]  # Independent variable
+y = df['Pass_Exam']  # Dependent variable (binary classification)
+
+# Split into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# =============================
+# Logistic Regression Model
+# =============================
+# Initialize and train the model 
+logistic_model = LogisticRegression() 
+logistic_model.fit(X_train, y_train)
+
+# Predict on test data
+y_pred = logistic_model.predict(X_test)
+y_prob = logistic_model.predict_proba(X_test)[:, 1]  # Probabilities for class 1
+
+# =============================
+# Model Evaluation
+# =============================
+print("=== Logistic Regression Evaluation ===")
+
+# Accuracy
+accuracy = accuracy_score(y_test, y_pred) 
+print(f"Accuracy: {accuracy:.2f}")
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, y_pred) 
+print(f"Confusion Matrix:\n{cm}")
+
+# Classification Report
+cr = classification_report(y_test, y_pred) 
+print(f"Classification Report:\n{cr}")
+
+# =============================
+# Visualization
+# =============================
+# Scatter plot of data
+plt.scatter(X, y, color='blue', label='Actual Data')
+
+# Line plot of predicted probabilities
+x_vals = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
+y_vals = logistic_model.predict_proba(x_vals)[:, 1] 
+
+plt.plot(x_vals, y_vals, color='red', label='Logistic Curve')
+plt.xlabel("Study Hours") 
+plt.ylabel("Probability of Passing") 
+plt.title("Logistic Regression Curve") 
+plt.legend()
+plt.show()
+
+# =============================
+# ROC Curve and AUC
+# =============================
+fpr, tpr, _ = roc_curve(y_test, y_prob) 
+roc_auc = auc(fpr, tpr)
+
+# Plot ROC Curve
+plt.figure()
+plt.plot(fpr, tpr, color='blue', lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})') 
+plt.plot([0, 1], [0, 1], color='gray', linestyle='--', lw=2)
+plt.xlabel('False Positive Rate') 
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic (ROC) Curve') 
+plt.legend(loc='lower right')
+plt.show()
